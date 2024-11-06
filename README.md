@@ -13,6 +13,7 @@ This Chrome extension simplifies KOL (Key Opinion Leader) tracking on Shopify Co
 
 ---
 
+![screenshot_2024-11-06_13-31-22](https://github.com/user-attachments/assets/43de8ff9-b1f8-465e-8c30-0ef56aa94f09)
 
 
 ## Quick Setup Guide
