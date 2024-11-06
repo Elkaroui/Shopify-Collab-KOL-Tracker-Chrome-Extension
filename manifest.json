@@ -1,0 +1,45 @@
+{
+  "manifest_version": 3,
+  "name": "Shopify Admin Helper",
+  "version": "1.0",
+  "description": "Monitor Shopify admin pages and manage user data",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "downloads",
+    "nativeMessaging"
+  ],
+  "host_permissions": [
+    "https://admin.shopify.com/*",
+    "https://collabs-m.shopify.com/*",
+    "https://*.myshopify.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [{
+    "matches": [
+      "https://admin.shopify.com/*",
+      "https://collabs-m.shopify.com/*",
+      "https://*.myshopify.com/*"
+    ],
+    "js": [
+      "lib/xlsx.mini.min.js",
+      "lib/supabase.min.js",
+      "supabase-config.js",
+      "content.js"
+    ],
+    "css": ["styles.css"],
+    "all_frames": true,
+    "run_at": "document_idle"
+  }],
+  "web_accessible_resources": [{
+    "resources": ["injected.js"],
+    "matches": [
+      "https://admin.shopify.com/*",
+      "https://collabs-m.shopify.com/*",
+      "https://*.myshopify.com/*"
+    ]
+  }]
+} 
