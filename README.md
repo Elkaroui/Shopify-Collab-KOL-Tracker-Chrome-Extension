@@ -45,7 +45,6 @@ This Chrome extension simplifies KOL (Key Opinion Leader) tracking on Shopify Co
 // supabase-config.js
 const supabaseUrl = 'your-supabase-url';
 const supabaseKey = 'your-supabase-key';
-const supabase = createClient(supabaseUrl, supabaseKey);
 ```
 Replace `your-supabase-url` and `your-supabase-key` with your actual Supabase project details from the API settings.
 
