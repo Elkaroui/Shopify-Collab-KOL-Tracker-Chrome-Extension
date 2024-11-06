@@ -22,20 +22,20 @@ This Chrome extension simplifies KOL (Key Opinion Leader) tracking on Shopify Co
 2. **Create a New Project**: Configure your project as needed.
 3. **Go to the SQL Tab**: In Supabase, navigate to the SQL tab and set up a table to store Instagram user data.
 
-   Copy and paste the following SQL code into Supabase’s SQL editor and execute it:
+Copy and paste the following SQL code into Supabase’s SQL editor and execute it:
 
-   ```sql
-   create table public.instagram_users (
-     id bigserial not null,
-     user_id text not null,
-     created_at timestamp with time zone null default now(),
-     updated_at timestamp with time zone null default now(),
-     constraint instagram_users_pkey primary key (id),
-     constraint instagram_users_user_id_key unique (user_id)
-   ) tablespace pg_default;
+```sql
+create table public.instagram_users (
+  id bigserial not null,
+  user_id text not null,
+  created_at timestamp with time zone null default now(),
+  updated_at timestamp with time zone null default now(),
+  constraint instagram_users_pkey primary key (id),
+  constraint instagram_users_user_id_key unique (user_id)
+) tablespace pg_default;
 
-   create index if not exists idx_instagram_users_user_id on public.instagram_users using btree (user_id) tablespace pg_default;
-
+create index if not exists idx_instagram_users_user_id on public.instagram_users using btree (user_id) tablespace pg_default;
+```
 
 ### Step 2: Configure `supabase-config.js`
 1. In your extension’s code, locate `supabase-config.js`
