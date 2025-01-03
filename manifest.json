@@ -35,7 +35,11 @@
     "run_at": "document_idle"
   }],
   "web_accessible_resources": [{
-    "resources": ["injected.js"],
+    "resources": [
+      "injected.js",
+      "images/*",
+      "images/hisoka.png"
+    ],
     "matches": [
       "https://admin.shopify.com/*",
       "https://collabs-m.shopify.com/*",

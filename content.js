@@ -146,7 +146,7 @@ async function readExcelFile(file) {
         localUserIds = new Set(updatedServerUsers);
         
         // Force update all cards
-        const cards = document.querySelectorAll('div._CreatorCard_4yjtw_1');
+        const cards = document.querySelectorAll('div._CreatorCard_8hb3a_1');
         cards.forEach(card => {
           const userId = card.getAttribute('data-instagram-id');
           if (userId) {
@@ -195,7 +195,7 @@ async function readExcelFile(file) {
 
 // Function to update UI based on Excel data
 function updateUIFromExcel() {
-  const cards = document.querySelectorAll('div._CreatorCard_4yjtw_1');
+  const cards = document.querySelectorAll('div._CreatorCard_8hb3a_1');
   cards.forEach(card => {
     const userId = card.getAttribute('data-instagram-id');
     if (userId && userIds.has(userId)) {
@@ -264,7 +264,6 @@ function createToggleButton(userId, card) {
         lastUpdate: new Date().toISOString()
       });
       
-      // Update user count instead of difference UI
       await updateUserCount();
       
     } catch (e) {
@@ -285,11 +284,35 @@ function createToggleButton(userId, card) {
   return buttonContainer;
 }
 
-// Function to process creator cards
+// Add this helper function at the top of content.js
+function getCreatorCardClass() {
+  // Find all classes that match the pattern _CreatorCard_*
+  const element = document.querySelector('div[class*="_CreatorCard_"]');
+  if (element) {
+    const creatorCardClass = Array.from(element.classList)
+      .find(className => className.match(/_CreatorCard_\w+_1/));
+    return creatorCardClass || '_CreatorCard_3oayw_1'; // Fallback to current known class
+  }
+  return '_CreatorCard_3oayw_1'; // Fallback to current known class
+}
+
+function getImageContainerClass() {
+  // Find all classes that match the pattern _ImageContainer_*
+  const element = document.querySelector('div[class*="_ImageContainer_"]');
+  if (element) {
+    const imageContainerClass = Array.from(element.classList)
+      .find(className => className.match(/_ImageContainer_\w+_31/));
+    return imageContainerClass || '_ImageContainer_3oayw_31'; // Fallback to current known class
+  }
+  return '_ImageContainer_3oayw_31'; // Fallback to current known class
+}
+
+// Update processCreatorCards to use dynamic class names
 function processCreatorCards() {
   debug.log('Processing creator cards');
   
-  const cards = document.querySelectorAll('div._CreatorCard_4yjtw_1');
+  const creatorCardClass = getCreatorCardClass();
+  const cards = document.querySelectorAll(`div.${creatorCardClass}`);
   debug.log(`Found ${cards.length} creator cards`);
 
   cards.forEach((card, index) => {
@@ -541,20 +564,21 @@ async function updateUserCount() {
   }
 }
 
-// Add function to show saving status
+// Update the showSavingStatus function
 function showSavingStatus(show = true) {
   const statusBox = document.querySelector('.status-box');
   if (!statusBox) return;
+  
+  // Remove any existing notification
+  const existingNotification = statusBox.querySelector('.status-notification');
+  if (existingNotification) {
+    existingNotification.remove();
+  }
   
   if (show) {
     const notification = document.createElement('div');
     notification.className = 'status-notification saving';
     statusBox.appendChild(notification);
-  } else {
-    const notification = statusBox.querySelector('.status-notification');
-    if (notification) {
-      notification.remove();
-    }
   }
 }
 
@@ -680,9 +704,10 @@ async function main() {
   const observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
       if (mutation.addedNodes.length) {
+        const creatorCardClass = getCreatorCardClass();
         const hasCreatorCard = Array.from(mutation.addedNodes).some(node => {
-          return node.classList?.contains('_CreatorCard_4yjtw_1') ||
-                 node.querySelector?.('div._CreatorCard_4yjtw_1');
+          return node.classList?.contains(creatorCardClass) ||
+                 node.querySelector?.(`div.${creatorCardClass}`);
         });
         
         if (hasCreatorCard) {
